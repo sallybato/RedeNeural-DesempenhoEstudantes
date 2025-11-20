@@ -7,7 +7,7 @@ import os
 
 print("--- Iniciando Treinamento ---")
 
-# 1. Carregar os dados que salvamos antes
+#Carregar os dados 
 try:
     X_treino = np.load('X_treino.npy')
     X_teste = np.load('X_teste.npy')
@@ -19,12 +19,12 @@ except FileNotFoundError:
 
 n_features = X_treino.shape[1]
 
-# 2. Função para criar a rede neural
+# Função para criar a rede neural
 def criar_modelo(funcao_ativacao):
     model = Sequential([
         Dense(128, activation=funcao_ativacao, input_shape=(n_features,)),
         Dense(64, activation=funcao_ativacao),
-        Dense(32, activation=funcao_ativacao), # Requisito de 3 camadas ocultas
+        Dense(32, activation=funcao_ativacao), 
         Dense(16, activation=funcao_ativacao),
         Dense(1, activation='sigmoid') # Saída binária (0 ou 1)
     ])
@@ -34,14 +34,13 @@ def criar_modelo(funcao_ativacao):
                   metrics=['accuracy'])
     return model
 
-# 3. Treinamento (Testando ReLU e Tanh)
-# Vamos testar duas ativações diferentes como pede o trabalho
+
 for ativacao in ['relu', 'tanh']:
     print(f"\nTreinando com {ativacao}...")
     
     model = criar_modelo(ativacao)
     
-    # Treina a rede (vai mostrar a barrinha de progresso)
+    # Treina a rede 
     history = model.fit(X_treino, Y_treino, 
                         epochs=50, 
                         batch_size=32, 
